@@ -149,7 +149,7 @@ SoS <- function(sp_data, group_vect, Besito, table){
   Sens4_Simper <-  Besito_SIMPER[Besito_SIMPER$BESITO==4,]
   SIM_Freq_Sens <- unique(c(SIM_Freq_Sens,Sens4_Simper$Species))
   
-  Mns <- "10 Species reached after include species with a sensitive of 5 from SIMPER"
+  Mns <- "10 Species reached after include species with a sensitive of 4 from SIMPER"
   
   if (length(SIM_Freq_Sens)>=10) {
     print(Mns)
@@ -178,7 +178,7 @@ SoS <- function(sp_data, group_vect, Besito, table){
   Sens3_Simper <-  Besito_SIMPER[Besito_SIMPER$BESITO==3,]
   SIM_Freq_Sens <- unique(c(SIM_Freq_Sens,Sens3_Simper$Species))
   
-  Mns <- "10 Species reached after include species with a sensitive of 5 from SIMPER"
+  Mns <- "10 Species reached after include species with a sensitive of 3 from SIMPER"
   
   if (length(SIM_Freq_Sens)>=10) {
     print(Mns)
