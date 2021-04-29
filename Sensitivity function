@@ -1,0 +1,27 @@
+#COMPUTING HABITAT SENSITIVITY BASED ON PRESSURE-STATE CURVES
+
+#BOOTSTRAPPING FOR SENSITIVITY
+
+SensBySoS <- function(data, i){
+  d2 <- data[i,]
+  names(d2) <- c("Pressure", "SoS")
+  SensGam <- gam(SoS ~ s(Pressure, k=3), data=d2, family=binomial)
+  d3 <- d2
+  d3$Pressure <- seq(0,1,length.out = nrow(d2))
+  Pred_SensGam <- predict.gam(SensGam, d3, type="response")
+  d3$Pred <- Pred_SensGam/max(Pred_SensGam)
+  x <- d3$Pressure
+  d3$Sens_1 <- (max((x^(8)))-((x^(8)))/1.5)/max((x^(8)))
+  d3$Sens_2 <- (max((x^(2)))-((x^(2)))/1.25)/max((x^(2)))
+  d3$Sens_3 <- 1-x
+  d3$Sens_4 <- 1-rev((max((x^(3)))-(x^(3)))/max((x^(3))))
+  d3$Sens_5 <- 1-rev((max((x^(8)))-(x^(8)))/max((x^(8))))
+  SumSqr_1 <- sum((d3$Sens_1- d3$Pred)^2)
+  SumSqr_2 <- sum((d3$Sens_2- d3$Pred)^2)
+  SumSqr_3 <- sum((d3$Sens_3- d3$Pred)^2)
+  SumSqr_4 <- sum((d3$Sens_4- d3$Pred)^2)
+  SumSqr_5 <- sum((d3$Sens_5- d3$Pred)^2)
+  AllSumSqr <- c(SumSqr_1, SumSqr_2, SumSqr_3, SumSqr_4, SumSqr_5)
+  Sens <- as.numeric(match(min(AllSumSqr),AllSumSqr))
+  return(Sens)
+}
